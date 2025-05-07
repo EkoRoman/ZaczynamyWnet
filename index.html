@@ -11,13 +11,38 @@
       align-items: center;
       height: 100vh;
       font-family: sans-serif;
+      margin: 0;
+    }
+    .container {
+      text-align: center;
+    }
+    .container img {
+      display: block;
+      margin: 0 auto 1em; /* wyśrodkowanie + odstęp pod obrazkiem */
+      max-width: 100%;      /* responsywne dopasowanie szerokości */
+      height: auto;
     }
     h1 {
       color: #333;
+      margin-bottom: 0.5em;
+    }
+    p {
+      color: #666;
+      font-size: 0.9em;
+      margin-top: 0;
     }
   </style>
 </head>
 <body>
-  <h1>Wkrótce zaczynamy!</h1>
+  <div class="container">
+    <!-- 1. tutaj logo -->
+    <img src="logo_v3_265x120.png" alt="Logo EKOROLNI.PL">
+    
+    <!-- 2. nagłówek -->
+    <h1>Wkrótce zaczynamy!</h1>
+    
+    <!-- 3. email pod spodem -->
+    <p>Email: <a href="mailto:ekopeleton@gmail.com">ekopeleton@gmail.com</a></p>
+  </div>
 </body>
 </html>
