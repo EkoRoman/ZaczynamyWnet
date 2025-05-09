@@ -2,10 +2,10 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Wkrótce zaczynamy</title>
+  <title>Wkrótce zaczynamy – Newsletter</title>
   <style>
     body {
-      background-color: #f2f2f2;
+      background: #f2f2f2;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -14,35 +14,107 @@
       margin: 0;
     }
     .container {
+      background: #fff;
+      padding: 2em;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       text-align: center;
+      width: 400px;           /* zwiększona szerokość */
+      max-width: 90%;
+      box-sizing: border-box;
     }
-    .container img {
+    .logo {
+      margin-bottom: 1em;
+    }
+    .logo img {
       display: block;
-      margin: 0 auto 1em; /* wyśrodkowanie + odstęp pod obrazkiem */
-      max-width: 100%;      /* responsywne dopasowanie szerokości */
+      margin: 0 auto;
+      max-width: 100%;
       height: auto;
     }
     h1 {
-      color: #333;
       margin-bottom: 0.5em;
     }
-    p {
-      color: #666;
+    .info {
       font-size: 0.9em;
-      margin-top: 0;
+      color: #555;
+      margin-bottom: 1em;
+      line-height: 1.4;
+    }
+    input[type="email"] {
+      width: 100%;
+      padding: 0.5em;
+      margin: 1em 0;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 0.5em 1em;
+      cursor: pointer;
+    }
+    #form-status {
+      margin-top: 1em;
+      font-size: 0.9em;
+      color: green;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- 1. tutaj logo -->
-    <img src="logo_v3_265x120.png" alt="Logo EKOROLNI.PL">
-    
-    <!-- 2. nagłówek -->
+    <!-- logo wyśrodkowane nad ramką -->
+    <div class="logo">
+      <img src="logo_v3_265x120.png" alt="Logo">
+    </div>
+
     <h1>Wkrótce zaczynamy!</h1>
-    
-    <!-- 3. email pod spodem -->
-    <p><a href="mailto:ekorolni@gmail.com">ekorolni@gmail.com</a></p>
+
+    <!-- dodatkowy tekst informacyjny -->
+    <div class="info">
+      Napisz do nas na <a href="mailto:ekorolni@gmail.com">ekorolni@gmail.com</a><br>
+      lub wpisz tu swój email a powiadomimy cię mejlowo o otwarciu.<br>
+      Warto czekać! Będą promocje!
+    </div>
+
+    <form id="newsletter-form"
+          action="https://formspree.io/f/manobnvg"
+          method="POST">
+      <input type="email"
+             name="email"
+             placeholder="Twój e‑mail"
+             required>
+      <input type="hidden"
+             name="_subject"
+             value="Dopisz mnie">
+      <input type="hidden"
+             name="_next"
+             value="https://ekorolni.pl/thankyou.html">
+      <button type="submit">POINFORMUJCIE MNIE</button>
+    </form>
+    <div id="form-status"></div>
   </div>
+
+  <script>
+    const form = document.getElementById('newsletter-form');
+    const status = document.getElementById('form-status');
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const data = new FormData(form);
+      try {
+        const resp = await fetch(form.action, {
+          method: form.method,
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        });
+        if (resp.ok) {
+          status.textContent = 'Dziękujemy! Powiadomimy Cię gdy tylko będziemy gotowi!';
+          form.reset();
+        } else {
+          const err = await resp.json();
+          status.textContent = err.error || 'Wystąpił błąd.';
+        }
+      } catch (err) {
+        status.textContent = 'Błąd sieci.';
+      }
+    });
+  </script>
 </body>
 </html>
